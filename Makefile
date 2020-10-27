@@ -1,2 +1,2 @@
 app:
-	clang -Wall -Werror -Wextra -Wno-unused-parameter -o dobby dobby.c utils.c
+	clang -Wall -Werror -Wextra -Wno-unused-parameter -o dobby src/dobby.c src/utils.c
