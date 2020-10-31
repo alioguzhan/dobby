@@ -11,6 +11,7 @@
 #define LIST_PARAM "list"
 #define MAX_TASK_NAME 30
 #define MAX_LINE_LENGTH 55
+#define END_TIME_PLACEHOLDER "??\n"
 
 int main(int argc, char const *argv[])
 {
@@ -25,6 +26,7 @@ int main(int argc, char const *argv[])
         printf("🚫 Error while creating config files.");
         return 1;
     }
+    printf("\n");
     // generate unique id for the task from the timestamp
     // we will use this id for both identify the tasks and to figure out the start time, later
     time_t rawtime = time(NULL);
@@ -52,10 +54,10 @@ int main(int argc, char const *argv[])
             return 1;                                           // then exit
         }
 
-        FILE *f_ptr = fopen(db_file, "a");             // open the db file with append mode
-        fprintf(f_ptr, "%s,%s,??\n", now_ts, argv[2]); // add new line for the task
-        fclose(f_ptr);                                 // close the file
-        printf("🚀 Started to work on %s.\n", argv[2]); // inform the user
+        FILE *f_ptr = fopen(db_file, "a");                                 // open the db file with append mode
+        fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER); // add new line for the task
+        fclose(f_ptr);                                                     // close the file
+        printf("🚀 Started to work on %s.\n", argv[2]);                     // inform the user
     }
     else if (strncasecmp(argv[1], STOP_PARAM, strlen(STOP_PARAM)) == 0) // user stopping a task
     {
@@ -85,7 +87,7 @@ int main(int argc, char const *argv[])
             struct Task *task = line_to_task(line); // get the tokenized version of the line
             if (line_count > 0)                     // we are skipping the first line. it is the header line.
             {
-                if (strcasecmp(task->task_name, argv[2]) == 0)
+                if (strcasecmp(task->task_name, argv[2]) == 0 && strcasecmp(task->end_date, "??\n") == 0)
                 {
                     task->end_date = now_ts;
                     sprintf(line, "%s,%s,%s\n", task->id, task->task_name, task->end_date); // write the line with end date
@@ -106,6 +108,10 @@ int main(int argc, char const *argv[])
             strncat(new_file, line, strlen(line)); // append the line to new file
             free(task);                            // set it free
         }
+        if (!stopped)
+        {
+            printf("🍄 A task with name '%s' is not found\n", argv[2]);
+        }
 
         fclose(file);                    // close the db file opened with 'read' mode.
         FILE *new = fopen(db_file, "w"); // open the same file to write
@@ -116,17 +122,58 @@ int main(int argc, char const *argv[])
     }
     else if (strncasecmp(argv[1], LIST_PARAM, strlen(LIST_PARAM)) == 0) // user wants to see the list of tasks
     {
-        bool list_all = false;                                               // track the listing type
-        if (argc == 3 && strncasecmp(argv[2], "--all", strlen("-all")) == 0) // check if the user wants to see all tasks
+        bool list_all = false;                                                // track the listing type
+        if (argc == 3 && strncasecmp(argv[2], "--all", strlen("--all")) == 0) // check if the user wants to see all tasks
         {
             list_all = true;
-            printf("TODO: list all tasks\n");
         }
-        else
+        FILE *file = fopen(db_file, "r"); // open the file in read mode
+        if (file == NULL)                 // check if we failed to open the file
         {
-            // just display all ongoing tasksÎ
-            printf("TODO: list all active tasks\n");
+            printf("🚨 Could not open the file.");
+            return 0;
         }
+        char *line = malloc(sizeof(char) * MAX_LINE_LENGTH);
+        int counter = 0;
+        char *list_type = list_all ? "all" : "active";
+        printf("⭐️ Here is the list of *%s* tasks:\n", list_type);
+        printf("----------------------------------------\n");
+        while (fgets(line, MAX_LINE_LENGTH, file))
+        {
+            if (counter == 0)
+            {
+                counter++;
+                continue;
+            }
+            struct Task *task = line_to_task(line);
+            if (strcmp(task->end_date, END_TIME_PLACEHOLDER) == 0)
+            {
+                printf("%d -- %s\n", counter, task->task_name);
+                counter++;
+            }
+        }
+        if (list_all)
+        {
+            fseek(file, 0, SEEK_SET);
+            int counter_a = 0;
+            while (fgets(line, MAX_LINE_LENGTH, file))
+            {
+                if (counter_a == 0)
+                {
+                    counter_a++;
+                    continue;
+                }
+                struct Task *task = line_to_task(line);
+                if (strcmp(task->end_date, END_TIME_PLACEHOLDER))
+                {
+                    printf("%d -- %s ✅\n", counter, task->task_name);
+                    counter++;
+                }
+                counter_a++;
+            }
+        }
+        free(line);
+        fclose(file);
     }
     else
     {
@@ -134,5 +181,6 @@ int main(int argc, char const *argv[])
         return 1;
     }
     free(db_file);
+    printf("\n"); // final new line to make some space
     return 0;
 }
