@@ -6,11 +6,12 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <time.h>
+#include <assert.h>
+#include "utils.h"
 
-#define CONFIG_FOLDER "/.dobby/"
-#define DB_FILE "/.dobby/db"
-#define CONFIG_FILE "/.dobby/config"
-#define HOME_ENV "HOME"
+int create_db_file(void);
+int create_config_file(void);
 
 void print_usage()
 {
@@ -29,24 +30,26 @@ bool is_file_exists(const char *path)
     return true;
 }
 
-const char *get_home_path(const char *file_path)
+char *get_home_path(const char *file_path)
 {
-    char *home_dir = malloc(strlen(getenv(HOME_ENV)));
+    char *home_dir_path = getenv(HOME_ENV);
+    char *home_dir = malloc(strlen(home_dir_path) + 1);
+    assert(home_dir);
     char *file;
 
-    strcpy(home_dir, getenv(HOME_ENV));
+    strcpy(home_dir, home_dir_path);
 
     file = malloc(strlen(home_dir) + strlen(file_path) + 1);
+    assert(file);
     strcpy(file, home_dir);
     strcat(file, file_path);
+    free(home_dir);
     return file;
 }
 
 int prepare_config_files()
 {
-    const char *config_dir = get_home_path(CONFIG_FOLDER);
-    const char *db_file = get_home_path(DB_FILE);
-    const char *config_file = get_home_path(CONFIG_FILE);
+    char *config_dir = get_home_path(CONFIG_FOLDER);
 
     int ready = 1;
 
@@ -54,29 +57,47 @@ int prepare_config_files()
     {
         printf("⏳ First time running. Creating required files and folders...\n");
         mkdir(config_dir, 0777);
-
-        FILE *db = fopen(db_file, "w");
-        fclose(db);
-
-        FILE *config = fopen(config_file, "w");
-        fclose(config);
-
         printf("✅ Done.\n");
     }
-    else
-    {
-        if (!is_file_exists(db_file))
-        {
-            FILE *db = fopen(db_file, "w");
-            fclose(db);
-        }
-        if (!is_file_exists(config_file))
-        {
-            FILE *config = fopen(config_file, "w");
-            fclose(config);
-        }
-    }
+    create_db_file();
+    create_config_file();
 
+    free(config_dir);
     ready = 0;
     return ready;
+}
+
+int create_db_file()
+{
+    char *db_file = get_home_path(DB_FILE);
+    if (!is_file_exists(db_file))
+    {
+        FILE *db = fopen(db_file, "w");
+        fputs("id,task_name,stopped_at\n", db);
+        fclose(db);
+    }
+    free(db_file);
+    return 0;
+}
+
+int create_config_file()
+{
+    char *config_file = get_home_path(CONFIG_FILE);
+    if (!is_file_exists(config_file))
+    {
+        FILE *config = fopen(config_file, "w");
+        fclose(config);
+    }
+    free(config_file);
+    return 0;
+}
+
+char *get_datetime_from_timestamp(time_t ts)
+{
+    struct tm *dt = localtime(&ts);            // get localtime from timestamp
+    char *buffer = malloc(DATETIME_SIZE);      // init a buffer
+    assert(buffer);                            // check if allocation is OK
+    strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
+    printf("%ld == %s\n", ts, buffer);         // debug
+    return buffer;                             // return the human-readable date string
 }
