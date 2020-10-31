@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./logo.png" width="150" alt="react loves typescript">
+  <img src="./images/logo.png" width="150" alt="react loves typescript">
 </div>
 
 # Dobby
@@ -9,6 +9,10 @@ Dobby is a command-line tool to track your activities / time. It helps you to tr
 - You can ask Dobby to `start` a task when you want to start working on something.
 - You are done? Tell Dobby to `stop` that activity.
 - You also can ask to Dobby to list your tasks.
+
+Here is how the screenshot of the list view:
+
+<img src="./images/ss.png" alt="dobby screenshot" />
 
 ## Usage
 

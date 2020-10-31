@@ -1,0 +1,13 @@
+void red(void);
+void bold_red(void);
+void green(void);
+void bold_green(void);
+void blue(void);
+void bold_blue(void);
+void yellow(void);
+void bold_yellow(void);
+void magenta(void);
+void bold_magenta(void);
+void cyan(void);
+void bold_cyan(void);
+void reset(void);

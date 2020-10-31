@@ -103,7 +103,6 @@ char *get_datetime_from_timestamp(time_t ts)
     char *buffer = malloc(DATETIME_SIZE);      // init a buffer
     assert(buffer);                            // check if allocation is OK
     strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
-    printf("%ld == %s\n", ts, buffer);         // debug
     return buffer;                             // return the human-readable date string
 }
 struct Task *line_to_task(char *line)

@@ -5,6 +5,7 @@
 #include <time.h>
 #include <assert.h>
 #include "utils.h"
+#include "colors.h"
 
 #define START_PARAM "start"
 #define STOP_PARAM "stop"
@@ -57,7 +58,11 @@ int main(int argc, char const *argv[])
         FILE *f_ptr = fopen(db_file, "a");                                 // open the db file with append mode
         fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER); // add new line for the task
         fclose(f_ptr);                                                     // close the file
-        printf("🚀 Started to work on %s.\n", argv[2]);                     // inform the user
+        bold_cyan();
+        printf("🚀 Dobby has started to work on "); // inform the user
+        bold_magenta();
+        printf("%s\n", argv[2]);
+        reset();
     }
     else if (strncasecmp(argv[1], STOP_PARAM, strlen(STOP_PARAM)) == 0) // user stopping a task
     {
@@ -66,7 +71,7 @@ int main(int argc, char const *argv[])
         file = fopen(db_file, "r"); // open the file in read mode
         if (file == NULL)           // check if we failed to open the file
         {
-            printf("🚨 Could not open the file.");
+            printf("🚨 Dobby could not open the file.");
             return 0;
         }
         fseek(file, 0, SEEK_END); // seek to the end of the file
@@ -92,8 +97,12 @@ int main(int argc, char const *argv[])
                     task->end_date = now_ts;
                     sprintf(line, "%s,%s,%s\n", task->id, task->task_name, task->end_date); // write the line with end date
                     if (!stopped)
-                    {                                                   // if there are multiple tasks with the same name
-                        printf("✅ %s is completed\n", task->task_name); // print completion message onec.
+                    { // if there are multiple tasks with the same name
+                        bold_magenta();
+                        printf("✅ %s ", task->task_name);
+                        bold_cyan();
+                        printf("is completed!\n"); // print completion message onec.
+                        reset();
                         stopped = true;
                     }
                 }
@@ -110,7 +119,11 @@ int main(int argc, char const *argv[])
         }
         if (!stopped)
         {
-            printf("🍄 A task with name '%s' is not found\n", argv[2]);
+            printf("🍄 A task with name");
+            bold_yellow();
+            printf(" %s ", argv[2]);
+            reset();
+            printf("is not found\n");
         }
 
         fclose(file);                    // close the db file opened with 'read' mode.
@@ -135,9 +148,11 @@ int main(int argc, char const *argv[])
         }
         char *line = malloc(sizeof(char) * MAX_LINE_LENGTH);
         int counter = 0;
-        char *list_type = list_all ? "all" : "active"; // check the list type
-        printf("⭐️ Here is the list of *%s* tasks:\n", list_type);
-        printf("----------------------------------------\n");
+        printf("#    ");
+        printf("%-*s", MAX_TASK_NAME + 3, "Task Name");
+        printf("%-30s", "Started");
+        printf("%-30s\n", "Completed");
+        printf("%*c\n", MAX_TASK_NAME + 30 + 30, ' ');
         while (fgets(line, MAX_LINE_LENGTH, file)) // loop through lines inside the file
         {
             if (counter == 0) // check if this is the first line
@@ -148,8 +163,19 @@ int main(int argc, char const *argv[])
             struct Task *task = line_to_task(line);                // get the line as a task struct
             if (strcmp(task->end_date, END_TIME_PLACEHOLDER) == 0) // check if this record's end_time is not set
             {
-                printf("%d -- %s\n", counter, task->task_name); // so this is a ongoing task. print it.
-                counter++;                                      // increase it
+                char *start_time = get_datetime_from_timestamp((time_t)atol(task->id)); // get start time as string
+                bold_yellow();
+                printf("%-5d", counter);
+                bold_cyan();
+                printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
+                bold_blue();
+                printf("%-27s", start_time);
+                bold_green();
+                printf("%-27s\n", "-");
+                reset();
+
+                counter++; // increase it
+                free(start_time);
             }
         }
         if (list_all) // user called list with --all argument
@@ -166,7 +192,17 @@ int main(int argc, char const *argv[])
                 struct Task *task = line_to_task(line);
                 if (strcmp(task->end_date, END_TIME_PLACEHOLDER)) // check if the end_date is NOT '??'
                 {
-                    printf("%d -- %s ✅\n", counter, task->task_name); // this is a completed task. print it.
+                    char *start_time = get_datetime_from_timestamp((time_t)atol(task->id));     // get start time as string
+                    char *end_time = get_datetime_from_timestamp((time_t)atol(task->end_date)); // get end time as string
+                    bold_yellow();
+                    printf("%-5d", counter);
+                    bold_magenta();
+                    printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
+                    bold_blue();
+                    printf("%-27s", start_time);
+                    bold_green();
+                    printf("%-27s\n", end_time);
+                    reset();
                     counter++;
                 }
                 counter_a++;
