@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include <assert.h>
 #include "utils.h"
 
 #define START_PARAM "start"
