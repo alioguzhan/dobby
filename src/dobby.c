@@ -135,38 +135,38 @@ int main(int argc, char const *argv[])
         }
         char *line = malloc(sizeof(char) * MAX_LINE_LENGTH);
         int counter = 0;
-        char *list_type = list_all ? "all" : "active";
+        char *list_type = list_all ? "all" : "active"; // check the list type
         printf("⭐️ Here is the list of *%s* tasks:\n", list_type);
         printf("----------------------------------------\n");
-        while (fgets(line, MAX_LINE_LENGTH, file))
+        while (fgets(line, MAX_LINE_LENGTH, file)) // loop through lines inside the file
         {
-            if (counter == 0)
+            if (counter == 0) // check if this is the first line
             {
-                counter++;
-                continue;
+                counter++; // skip the first line
+                continue;  // move on
             }
-            struct Task *task = line_to_task(line);
-            if (strcmp(task->end_date, END_TIME_PLACEHOLDER) == 0)
+            struct Task *task = line_to_task(line);                // get the line as a task struct
+            if (strcmp(task->end_date, END_TIME_PLACEHOLDER) == 0) // check if this record's end_time is not set
             {
-                printf("%d -- %s\n", counter, task->task_name);
-                counter++;
+                printf("%d -- %s\n", counter, task->task_name); // so this is a ongoing task. print it.
+                counter++;                                      // increase it
             }
         }
-        if (list_all)
+        if (list_all) // user called list with --all argument
         {
-            fseek(file, 0, SEEK_SET);
-            int counter_a = 0;
-            while (fgets(line, MAX_LINE_LENGTH, file))
+            fseek(file, 0, SEEK_SET);                  // let's seek to the start of the file
+            int counter_a = 0;                         // set a counter for this loop
+            while (fgets(line, MAX_LINE_LENGTH, file)) // again, loop through to the file
             {
-                if (counter_a == 0)
+                if (counter_a == 0) // yes, yes check if this the first line
                 {
-                    counter_a++;
+                    counter_a++; // this is header line. let's skip.
                     continue;
                 }
                 struct Task *task = line_to_task(line);
-                if (strcmp(task->end_date, END_TIME_PLACEHOLDER))
+                if (strcmp(task->end_date, END_TIME_PLACEHOLDER)) // check if the end_date is NOT '??'
                 {
-                    printf("%d -- %s ✅\n", counter, task->task_name);
+                    printf("%d -- %s ✅\n", counter, task->task_name); // this is a completed task. print it.
                     counter++;
                 }
                 counter_a++;
