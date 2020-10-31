@@ -6,6 +6,13 @@
 #define HOME_ENV "HOME"
 #define DATETIME_SIZE 64
 
+typedef struct Task
+{
+    char *id;
+    char *task_name;
+    char *end_date;
+} task;
+
 /** Print program usage  */
 void print_usage(void);
 
@@ -18,5 +25,8 @@ bool is_file_exists(const char *path);
 /** check config files and create them if not exist */
 int prepare_config_files(void);
 
-/** returns human-readable date-time string from timestamp */
+/** for given timestamp value returns the human-readable string */
 char *get_datetime_from_timestamp(time_t ts);
+
+/** for given string, converts the line to a Task struct */
+struct Task *line_to_task(char *line);

@@ -13,6 +13,7 @@
 int create_db_file(void);
 int create_config_file(void);
 
+/** print the program usage */
 void print_usage()
 {
     printf("\tDobby v0.1\n");
@@ -21,6 +22,7 @@ void print_usage()
     printf("\tdobby list [--all]\n");
 }
 
+/** checks if the file exists at given PATH */
 bool is_file_exists(const char *path)
 {
     if (access(path, F_OK) != 0)
@@ -30,6 +32,7 @@ bool is_file_exists(const char *path)
     return true;
 }
 
+/** returns the $HOME path for the current user */
 char *get_home_path(const char *file_path)
 {
     char *home_dir_path = getenv(HOME_ENV);
@@ -47,6 +50,7 @@ char *get_home_path(const char *file_path)
     return file;
 }
 
+/** creates .dobby folder under the $HOME and puts some files in it. */
 int prepare_config_files()
 {
     char *config_dir = get_home_path(CONFIG_FOLDER);
@@ -67,6 +71,7 @@ int prepare_config_files()
     return ready;
 }
 
+/** creates a .csv file under the ~/.dobby AND writes the header line */
 int create_db_file()
 {
     char *db_file = get_home_path(DB_FILE);
@@ -100,4 +105,31 @@ char *get_datetime_from_timestamp(time_t ts)
     strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
     printf("%ld == %s\n", ts, buffer);         // debug
     return buffer;                             // return the human-readable date string
+}
+struct Task *line_to_task(char *line)
+{
+    struct Task *task = malloc(sizeof(struct Task));
+    assert(task);
+    const char *delim = ",";
+    char *token;
+    char *line_dup = strdup(line);
+    assert(line_dup);
+
+    token = strtok(line_dup, delim);
+    task->id = token;
+    int t_count = 1; // Token count in this line
+    while (token != NULL)
+    {
+        token = strtok(NULL, delim);
+        if (t_count == 1)
+        {
+            task->task_name = token;
+        }
+        else if (t_count == 2)
+        {
+            task->end_date = token;
+        }
+        t_count++;
+    }
+    return task;
 }
