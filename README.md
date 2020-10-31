@@ -10,7 +10,7 @@ Dobby is a command-line tool to track your activities / time. It helps you to tr
 - You are done? Tell Dobby to `stop` that activity.
 - You also can ask to Dobby to list your tasks.
 
-Here is how the screenshot of the list view:
+Here is the screenshot of the list view:
 
 <img src="./images/ss.png" alt="dobby screenshot" />
 
