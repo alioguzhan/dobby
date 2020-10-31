@@ -9,6 +9,7 @@
 #include <time.h>
 #include <assert.h>
 #include "utils.h"
+#include "colors.h"
 
 int create_db_file(void);
 int create_config_file(void);
@@ -16,9 +17,14 @@ int create_config_file(void);
 /** print the program usage */
 void print_usage()
 {
-    printf("\tDobby v0.1\n");
+    bold_magenta();
+    printf("   Dobby v0.1\n");
+    reset();
+    bold_yellow();
     printf("⭐️ Command line program to track and save your work / study activity.\n");
-    printf("💡 Usage:\n\tdobby start|stop task_name\n");
+    printf("💡 Usage:\n");
+    reset();
+    printf("\tdobby start|stop task_name\n");
     printf("\tdobby list [--all]\n");
 }
 

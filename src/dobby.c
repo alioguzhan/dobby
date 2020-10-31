@@ -150,8 +150,8 @@ int main(int argc, char const *argv[])
         int counter = 0;
         printf("#    ");
         printf("%-*s", MAX_TASK_NAME + 3, "Task Name");
-        printf("%-30s", "Started");
-        printf("%-30s\n", "Completed");
+        printf("%-27s", "Started");
+        printf("%-27s\n", "Completed");
         printf("%*c\n", MAX_TASK_NAME + 30 + 30, ' ');
         while (fgets(line, MAX_LINE_LENGTH, file)) // loop through lines inside the file
         {

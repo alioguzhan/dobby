@@ -4,9 +4,9 @@
 
 # Dobby
 
-Dobby is a command-line tool to track your activities / time. It helps you to track how much time you spent on your activites or projects.
+Dobby is a command-line tool to track your activities / time. It helps you to track how much time you spent on your activities or projects.
 
-- You can ask Dobby to `start` a task when you want to start working on something.
+- You can ask Dobby `start` a task when you want to start working on something.
 - You are done? Tell Dobby to `stop` that activity.
 - You also can ask to Dobby to list your tasks.
 
