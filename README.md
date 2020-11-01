@@ -53,6 +53,12 @@ Now you should be able to run `dobby` from anywhere in your terminal.
 
 Any kind of contribution will be appreciated. Please open an issue or PR.
 
+
+## Support S.P.E.W
+
+`Society for the Promotion of Elfish Welfare (S.P.E.W)` is an organizational effort to gain basic rights for house elves.
+
+
 ## Logo
 
 That Dobby image is taken from [Pixel Art Maker](http://pixelartmaker.com).
