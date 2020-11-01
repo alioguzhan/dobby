@@ -39,7 +39,7 @@ $ dobby list
 If you want to see all your tasks including completed ones:
 
 ```bash
-$ doby list --all
+$ dobby list --all
 ```
 
 ## Installation

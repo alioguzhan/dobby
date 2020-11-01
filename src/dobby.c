@@ -19,7 +19,6 @@ int main(int argc, char const *argv[])
         printf("🚫 Error while creating config files.");
         return 1;
     }
-    printf("\n");
     if (strncasecmp(argv[1], START_PARAM, strlen(START_PARAM)) == 0) // user starting a new task
     {
         return start_task(argc, argv);
