@@ -1,5 +1,6 @@
 // utils.h
 #include <stdbool.h>
+#include <time.h>
 
 #define CONFIG_FOLDER "/.dobby/"
 #define DB_FILE "/.dobby/dobby-db.csv"
