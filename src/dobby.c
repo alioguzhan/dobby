@@ -6,6 +6,7 @@
 #include <assert.h>
 #include "utils.h"
 #include "colors.h"
+#include "start.h"
 
 #define START_PARAM "start"
 #define STOP_PARAM "stop"
@@ -39,30 +40,7 @@ int main(int argc, char const *argv[])
 
     if (strncasecmp(argv[1], START_PARAM, strlen(START_PARAM)) == 0) // user starting a new task
     {
-        if (argc != 3) // check if task_name is provided
-        {
-            printf("💡 Usage: dobby start task_name\n");
-            return 1;
-        }
-        if (strlen(argv[2]) > MAX_TASK_NAME) // check if task name length is valid
-        {
-            printf("✋ Task name length should be less than %d\n", MAX_TASK_NAME); // warn the user
-            return 1;                                                             // then exit
-        }
-        if (strchr(argv[2], ',')) // check if task name contains , (comma)
-        {
-            printf("✋ Task name cannot contain ',' (comma)\n"); // warn th user
-            return 1;                                           // then exit
-        }
-
-        FILE *f_ptr = fopen(db_file, "a");                                 // open the db file with append mode
-        fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER); // add new line for the task
-        fclose(f_ptr);                                                     // close the file
-        bold_cyan();
-        printf("🚀 Dobby has started to work on "); // inform the user
-        bold_magenta();
-        printf("%s\n", argv[2]);
-        reset();
+        return start_task(argc, argv);
     }
     else if (strncasecmp(argv[1], STOP_PARAM, strlen(STOP_PARAM)) == 0) // user stopping a task
     {

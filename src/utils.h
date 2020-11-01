@@ -1,10 +1,17 @@
 // utils.h
+#include <stdbool.h>
 
 #define CONFIG_FOLDER "/.dobby/"
 #define DB_FILE "/.dobby/dobby-db.csv"
 #define CONFIG_FILE "/.dobby/dobby.cfg"
 #define HOME_ENV "HOME"
 #define DATETIME_SIZE 64
+#define START_PARAM "start"
+#define STOP_PARAM "stop"
+#define LIST_PARAM "list"
+#define MAX_TASK_NAME 30
+#define MAX_LINE_LENGTH 55
+#define END_TIME_PLACEHOLDER "??\n"
 
 typedef struct Task
 {
