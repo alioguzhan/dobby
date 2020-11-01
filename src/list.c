@@ -34,6 +34,7 @@ int list_tasks(int argc, char const *argv[])
     int counter = 0;
     printf("#    ");
     printf("%-*s", MAX_TASK_NAME + 3, "Task Name");
+    printf("%-15s", "Total");
     printf("%-27s", "Started");
     printf("%-27s\n", "Completed");
     printf("%*c\n", MAX_TASK_NAME + 30 + 30, ' ');
@@ -47,11 +48,17 @@ int list_tasks(int argc, char const *argv[])
         struct Task *task = line_to_task(line);                // get the line as a task struct
         if (strcmp(task->end_date, END_TIME_PLACEHOLDER) == 0) // check if this record's end_time is not set
         {
-            char *start_time = get_datetime_from_timestamp((time_t)atol(task->id)); // get start time as string
+            time_t start_t = (time_t)atol(task->id);                 // string to time_t
+            time_t now = (time_t)atol(now_ts);                       // string to time_t
+            char *start_time = get_datetime_from_timestamp(start_t); // get start time as string
+            char *spent_time = get_relative_time(start_t, now);
+
             bold_yellow();
             printf("%-5d", counter);
             bold_cyan();
             printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
+            bold_green();
+            printf("%-15s", spent_time);
             bold_blue();
             printf("%-27s", start_time);
             bold_green();
@@ -76,12 +83,19 @@ int list_tasks(int argc, char const *argv[])
             struct Task *task = line_to_task(line);
             if (strcmp(task->end_date, END_TIME_PLACEHOLDER)) // check if the end_date is NOT '??'
             {
-                char *start_time = get_datetime_from_timestamp((time_t)atol(task->id));     // get start time as string
-                char *end_time = get_datetime_from_timestamp((time_t)atol(task->end_date)); // get end time as string
+                time_t start_t = (time_t)atol(task->id);                 // string to time_t
+                time_t end_t = (time_t)atol(task->end_date);             // string to time_t
+                char *start_time = get_datetime_from_timestamp(start_t); // get start time as string
+                char *end_time = get_datetime_from_timestamp(end_t);     // get end time as string
+
+                char *spent_time = get_relative_time(start_t, end_t);
+
                 bold_yellow();
                 printf("%-5d", counter);
                 bold_magenta();
                 printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
+                bold_green();
+                printf("%-15s", spent_time);
                 bold_blue();
                 printf("%-27s", start_time);
                 bold_green();

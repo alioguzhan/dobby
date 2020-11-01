@@ -38,3 +38,7 @@ char *get_datetime_from_timestamp(time_t ts);
 
 /** for given string, converts the line to a Task struct */
 struct Task *line_to_task(char *line);
+
+// takes a timestamp and returns the human-readble timeago string
+// 1604236791 -> 2 days 3 hours
+char *get_relative_time(time_t t1, time_t t2);

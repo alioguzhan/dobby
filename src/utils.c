@@ -8,11 +8,13 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <assert.h>
+#include <stdarg.h>
 #include "utils.h"
 #include "colors.h"
 
 int create_db_file(void);
 int create_config_file(void);
+void strfcat(char *src, char *fmt, ...);
 
 /** print the program usage */
 void print_usage()
@@ -137,4 +139,71 @@ struct Task *line_to_task(char *line)
         t_count++;
     }
     return task;
+}
+
+char *get_relative_time(time_t start_time, time_t end_time)
+{
+    double seconds = difftime(end_time, start_time);
+    int i = (int)seconds;
+    int days, hours, mins, secs;
+    days = hours = mins = secs = 0;
+    char *result = malloc(40);
+
+    int DAY = 60 * 60 * 24;
+    int HOUR = 60 * 60;
+    int MIN = 60;
+    while (i > 0)
+    {
+        if (i >= DAY)
+        {
+            i -= DAY;
+            days++;
+        }
+        else if (i >= HOUR)
+        {
+            i -= HOUR;
+            hours++;
+        }
+        else if (i >= MIN)
+        {
+            i -= MIN;
+            mins++;
+        }
+        else
+        {
+            i -= 1;
+            secs++;
+        }
+    }
+    if (days > 0)
+    {
+        strfcat(result, "%dd ", days);
+    }
+    if (hours > 0)
+    {
+        strfcat(result, "%dh ", hours);
+    }
+    if (mins > 0)
+    {
+        strfcat(result, "%dm ", mins);
+    }
+    if (secs > 0)
+    {
+        strfcat(result, "%ds", secs);
+    }
+    return result;
+}
+
+// I have no idea how below works.
+void strfcat(char *src, char *fmt, ...)
+{
+    size_t s = sizeof(src);
+    char buf[s];
+    va_list args;
+
+    va_start(args, fmt);
+    vsprintf(buf, fmt, args);
+    va_end(args);
+
+    strcat(src, buf);
 }
