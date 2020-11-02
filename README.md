@@ -51,6 +51,17 @@ $ dobby list --all
 
 Now you should be able to run `dobby` from anywhere in your terminal.
 
+
+## Road Map / To Do
+
+- [ ] Add `report` feature to generate an HTML file that derives some stats from all tasks.
+- [ ] Check the correctnes off `db` file on each start (In case of user or other programs modified it).
+- [ ] Make sure it is working properly on `linux`.
+- [ ] There are some duplicates among the code. Refactor the code base.
+- [ ] Run `valgrind` on each push and PR.
+- [ ] `VS Code` extension to track programming projects automatically ?? (long shot..)
+
+
 ## Contribution
 
 Any kind of contribution will be appreciated. Please open an issue or PR.
