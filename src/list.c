@@ -67,7 +67,9 @@ int list_tasks(int argc, char const *argv[])
 
             counter++; // increase it
             free(start_time);
+            free(spent_time);
         }
+        free(task);
     }
     if (list_all) // user called list with --all argument
     {
@@ -102,7 +104,11 @@ int list_tasks(int argc, char const *argv[])
                 printf("%-27s\n", end_time);
                 reset();
                 counter++;
+                free(start_time);
+                free(end_time);
+                free(spent_time);
             }
+            free(task);
             counter_a++;
         }
     }

@@ -147,7 +147,7 @@ char *get_relative_time(time_t start_time, time_t end_time)
     int i = (int)seconds;
     int days, hours, mins, secs;
     days = hours = mins = secs = 0;
-    char *result = malloc(40);
+    char *result = calloc(1, 40);
 
     int DAY = 60 * 60 * 24;
     int HOUR = 60 * 60;
