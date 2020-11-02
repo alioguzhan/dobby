@@ -61,5 +61,5 @@ Any kind of contribution will be appreciated. Please open an issue or PR.
 
 ## Logo
 
-That Dobby image is taken from [Pixel Art Maker](http://pixelartmaker.com).
+That Dobby image is taken from [Pinterest](https://pinterest.com/pin/356558495496348737/).
 
