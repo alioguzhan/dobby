@@ -4,6 +4,8 @@
 
 # Dobby
 
+[![Github](https://github.com/alioguzhan/dobby/workflows/Compile,%20Install%20and%20Test/badge.svg)](https://github.com/alioguzhan/dobby/actions)
+
 Dobby is a command-line tool to track your activities / time. It helps you to track how much time you spent on your activities or projects.
 
 - You can ask Dobby `start` a task when you want to start working on something.
