@@ -122,6 +122,8 @@ struct Task *line_to_task(char *line)
     char *line_dup = strdup(line);
     assert(line_dup);
 
+    task->raw_line = line_dup;
+
     token = strtok(line_dup, delim);
     task->id = token;
     int t_count = 1; // Token count in this line
@@ -206,4 +208,10 @@ void strfcat(char *src, char *fmt, ...)
     va_end(args);
 
     strcat(src, buf);
+}
+
+void free_task(struct Task *task)
+{
+    free(task->raw_line);
+    free(task);
 }

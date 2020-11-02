@@ -19,6 +19,7 @@ typedef struct Task
     char *id;
     char *task_name;
     char *end_date;
+    char *raw_line;
 } task;
 
 /** Print program usage  */
@@ -42,3 +43,6 @@ struct Task *line_to_task(char *line);
 // takes a timestamp and returns the human-readble timeago string
 // 1604236791 -> 2 days 3 hours
 char *get_relative_time(time_t t1, time_t t2);
+
+/** free a task */
+void free_task(struct Task *task);

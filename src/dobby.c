@@ -8,17 +8,20 @@
 
 int main(int argc, char const *argv[])
 {
+    // check arg count
     if (argc == 1)
     {
         print_usage();
         return 1;
     }
+
     // check if program files is created under $HOME
     if (prepare_config_files() != 0)
     {
         printf("🚫 Error while creating config files.");
         return 1;
     }
+
     if (strncasecmp(argv[1], START_PARAM, strlen(START_PARAM)) == 0) // user starting a new task
     {
         return start_task(argc, argv);
