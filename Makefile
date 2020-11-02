@@ -4,4 +4,4 @@ app:
 install:
 	echo "⏳ Installing Dobby to /usr/local/bin..." && cp ./dobby /usr/local/bin/dobby && echo "✅ Done."
 test:
-	sh ./tests/tests.sh && echo "✅ Done"
+	bash ./tests/tests.sh && echo "✅ Done"
