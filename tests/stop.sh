@@ -10,4 +10,5 @@ if [ $status -eq 0 ]; then
     echo "Stopping a task: PASSED"
 else
     echo "Stopping a task: FAILED"
+    exit 1;
 fi
