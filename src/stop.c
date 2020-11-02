@@ -32,9 +32,8 @@ int stop_task(int argc, char const *argv[])
     original_file_size = ftell(file); // get the file size
     fseek(file, 0, SEEK_SET);         // rollback to the start of the file
 
-    char *new_file = NULL;
-    new_file = (char *)malloc(sizeof(char) * original_file_size); // allocate memory for the new file
-    assert(new_file);                                             // check if allocation failed
+    char *new_file = (char *)calloc(1, sizeof(char) * original_file_size); // allocate memory for the new file
+    assert(new_file);                                                      // check if allocation failed
 
     int line_count = 0; // store the total lines in the file
     char *line = NULL;
