@@ -59,9 +59,9 @@ int stop_task(int argc, char const *argv[])
                 }
             }
         }
-        line_count++;                  // we are done with this line. let's move the next one.
-        new_file_size += strlen(line); // increase the memory amount required for the new file
-        if (new_file_size >= size)     // check if the new file size is bigger than the original file size
+        line_count++;                      // we are done with this line. let's move the next one.
+        new_file_size += strlen(line) + 1; // increase the memory amount required for the new file
+        if (new_file_size >= size)         // check if the new file size is bigger than the original file size
         {
             new_file = realloc(new_file, new_file_size); // if so re allocate some memory
             assert(new_file);                            // check
