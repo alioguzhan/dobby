@@ -5,7 +5,7 @@
 #include <time.h>
 #include <assert.h>
 #include "utils.h"
-#include "colors.h"
+#include "colorize.h"
 #include "stop.h"
 
 int stop_task(int argc, char const *argv[])
@@ -50,9 +50,9 @@ int stop_task(int argc, char const *argv[])
                 sprintf(line, "%s,%s,%s\n", task->id, task->task_name, task->end_date); // write the line with end date
                 if (!stopped)
                 { // if there are multiple tasks with the same name
-                    bold_magenta();
+                    magenta();
                     printf("✅ %s ", task->task_name);
-                    bold_cyan();
+                    cyan();
                     printf("is completed!\n"); // print completion message onec.
                     reset();
                     stopped = true;
@@ -72,7 +72,7 @@ int stop_task(int argc, char const *argv[])
     if (!stopped)
     {
         printf("🍄 A task with name");
-        bold_yellow();
+        yellow();
         printf(" %s ", argv[2]);
         reset();
         printf("is not found\n");

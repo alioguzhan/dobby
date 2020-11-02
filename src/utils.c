@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <stdarg.h>
 #include "utils.h"
-#include "colors.h"
+#include "colorize.h"
 
 int create_db_file(void);
 int create_config_file(void);
@@ -19,10 +19,10 @@ void strfcat(char *src, char *fmt, ...);
 /** print the program usage */
 void print_usage()
 {
-    bold_magenta();
+    magenta();
     printf("   Dobby v0.1\n");
     reset();
-    bold_yellow();
+    yellow();
     printf("⭐️ Command line program to track and save your work / study activity.\n");
     printf("💡 Usage:\n");
     reset();

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "utils.h"
-#include "colors.h"
+#include "colorize.h"
 #include "start.h"
 
 int start_task(int argc, char const *argv[])
@@ -36,9 +36,9 @@ int start_task(int argc, char const *argv[])
     FILE *f_ptr = fopen(db_file, "a");                                 // open the db file with append mode
     fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER); // add new line for the task
     fclose(f_ptr);                                                     // close the file
-    bold_cyan();
+    cyan();
     printf("🚀 Dobby has started to work on "); // inform the user
-    bold_magenta();
+    magenta();
     printf("%s\n", argv[2]);
     reset();
     return 0;

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include "utils.h"
-#include "colors.h"
+#include "colorize.h"
 #include "list.h"
 
 // list tasks
@@ -53,15 +53,15 @@ int list_tasks(int argc, char const *argv[])
             char *start_time = get_datetime_from_timestamp(start_t); // get start time as string
             char *spent_time = get_relative_time(start_t, now);
 
-            bold_yellow();
+            yellow();
             printf("%-5d", counter);
-            bold_cyan();
+            cyan();
             printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
-            bold_green();
+            green();
             printf("%-15s", spent_time);
-            bold_blue();
+            blue();
             printf("%-27s", start_time);
-            bold_green();
+            green();
             printf("%-27s\n", "-");
             reset();
 
@@ -90,15 +90,15 @@ int list_tasks(int argc, char const *argv[])
 
                 char *spent_time = get_relative_time(start_t, end_t);
 
-                bold_yellow();
+                yellow();
                 printf("%-5d", counter);
-                bold_magenta();
+                magenta();
                 printf("%-*s", MAX_TASK_NAME + 3, task->task_name); // this is a completed task. print it.
-                bold_green();
+                green();
                 printf("%-15s", spent_time);
-                bold_blue();
+                blue();
                 printf("%-27s", start_time);
-                bold_green();
+                green();
                 printf("%-27s\n", end_time);
                 reset();
                 counter++;
