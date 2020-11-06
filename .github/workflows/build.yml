@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Compile
-        run: ./configure && make
+      - name: Configure and Make
+        run: autoreconf -vfi && ./configure && make
       - name: Run Tests
         run: make test
   build_macos_10_15:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
-      - name: Compile
-        run: ./configure && make
+      - name: Configure and Make
+        run: autoreconf -vfi && ./configure && make
       - name: Run Tests
         run: bash ./tests/tests.sh
