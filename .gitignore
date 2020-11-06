@@ -171,3 +171,4 @@ _deps
 .dirstamp
 .vscode
 dobby
+*.tar.gz
