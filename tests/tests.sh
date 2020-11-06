@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source "tests/no_args.sh"
 source "tests/start.sh"
 source "tests/stop.sh"

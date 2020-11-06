@@ -20,6 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Compile
-        run: make
+        run: ./configure && make
       - name: Run Tests
-        run: make test
+        run: bash ./tests/tests.sh
