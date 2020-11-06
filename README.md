@@ -46,8 +46,13 @@ $ dobby list --all
 
 ## Installation
 
-- Clone the repository.
-- Run `make` and then `make install` to install Dobby.
+Download the latest release from [releases page](https://github.com/alioguzhan/dobby/releases) and run:
+
+```bash
+./configure
+make
+make install
+```
 
 Now you should be able to run `dobby` from anywhere in your terminal.
 
