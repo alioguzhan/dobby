@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
-#include <assert.h>
 #include "utils.h"
 #include "colorize.h"
 #include "stop.h"
@@ -33,14 +32,14 @@ int stop_task(int argc, char const *argv[])
     fseek(file, 0, SEEK_SET);         // rollback to the start of the file
 
     char *new_file = (char *)calloc(1, sizeof(char) * original_file_size); // allocate memory for the new file
-    assert(new_file);                                                      // check if allocation failed
+    // TODO: check if allocation failed
 
     int line_count = 0; // store the total lines in the file
     char *line = NULL;
     line = malloc(sizeof(char) * MAX_LINE_LENGTH); // allocate memory for a single line
-    assert(line);                                  // check if allocation failed
-    size_t new_file_size = 0;                      // store the required byte amount for the new file
-    bool stopped = false;                          // check if a task with given name is stopped
+    // TODO: check if allocation failed
+    size_t new_file_size = 0; // store the required byte amount for the new file
+    bool stopped = false;     // check if a task with given name is stopped
 
     while (fgets(line, MAX_LINE_LENGTH, file)) // read lines through the file
     {
@@ -69,7 +68,7 @@ int stop_task(int argc, char const *argv[])
         if (new_file_size >= original_file_size) // check if the new file size is bigger than the original file size
         {
             new_file = (char *)realloc(new_file, new_file_size); // if so re allocate some memory
-            assert(new_file);                                    // check
+            // TODO: check if allocation failed
         }
 
         strncat(new_file, line, new_file_size); // append the line to new file

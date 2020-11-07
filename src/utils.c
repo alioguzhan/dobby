@@ -7,7 +7,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <assert.h>
 #include <stdarg.h>
 #include "utils.h"
 #include "colorize.h"
@@ -45,13 +44,13 @@ char *get_home_path(const char *file_path)
 {
     char *home_dir_path = getenv(HOME_ENV);
     char *home_dir = malloc(strlen(home_dir_path) + 1);
-    assert(home_dir);
+    // TODO: check if allocation failed
     char *file;
 
     strcpy(home_dir, home_dir_path);
 
     file = malloc(strlen(home_dir) + strlen(file_path) + 1);
-    assert(file);
+    // TODO: check if allocation failed
     strcpy(file, home_dir);
     strcat(file, file_path);
     free(home_dir);
@@ -107,20 +106,20 @@ int create_config_file()
 
 char *get_datetime_from_timestamp(time_t ts)
 {
-    struct tm *dt = localtime(&ts);            // get localtime from timestamp
-    char *buffer = malloc(DATETIME_SIZE);      // init a buffer
-    assert(buffer);                            // check if allocation is OK
+    struct tm *dt = localtime(&ts);       // get localtime from timestamp
+    char *buffer = malloc(DATETIME_SIZE); // init a buffer
+    // TODO: check if allocation failed
     strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
     return buffer;                             // return the human-readable date string
 }
 struct Task *line_to_task(char *line)
 {
     struct Task *task = malloc(sizeof(struct Task));
-    assert(task);
+    // TODO: check if allocation failed
     const char *delim = ",";
     char *token;
     char *line_dup = strdup(line);
-    assert(line_dup);
+    // TODO: check if allocation failed
 
     task->raw_line = line_dup;
 
