@@ -24,10 +24,21 @@ int main(int argc, char const *argv[])
     // user starting a new task
     if (strncasecmp(argv[1], START_PARAM, strlen(START_PARAM)) == 0)
     {
+        if (argc != 3)
+        {
+            print_usage();
+            return 1;
+        }
+
         return start_task(argc, argv);
     } // user stopping a task
     else if (strncasecmp(argv[1], STOP_PARAM, strlen(STOP_PARAM)) == 0)
     {
+        if (argc != 3)
+        {
+            print_usage();
+            return 1;
+        }
         return stop_task(argc, argv);
     } // user wants to see the list of tasks
     else if (strncasecmp(argv[1], LIST_PARAM, strlen(LIST_PARAM)) == 0)
