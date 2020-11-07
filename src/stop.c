@@ -31,12 +31,12 @@ int stop_task(int argc, char const *argv[])
     original_file_size = ftell(file); // get the file size
     fseek(file, 0, SEEK_SET);         // rollback to the start of the file
 
-    char *new_file = (char *)calloc(1, sizeof(char) * original_file_size); // allocate memory for the new file
+    char *new_file = (char *)calloc(1, original_file_size); // allocate memory for the new file
     // TODO: check if allocation failed
 
     int line_count = 0; // store the total lines in the file
     char *line = NULL;
-    line = malloc(sizeof(char) * MAX_LINE_LENGTH); // allocate memory for a single line
+    line = malloc(MAX_LINE_LENGTH); // allocate memory for a single line
     // TODO: check if allocation failed
     size_t new_file_size = 0; // store the required byte amount for the new file
     bool stopped = false;     // check if a task with given name is stopped

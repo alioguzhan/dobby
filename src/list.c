@@ -30,7 +30,7 @@ int list_tasks(int argc, char const *argv[])
         printf("🚨 Could not open the file.");
         return 1;
     }
-    char *line = malloc(sizeof(char) * MAX_LINE_LENGTH);
+    char *line = malloc(MAX_LINE_LENGTH);
     int counter = 0;
     printf("#    ");
     printf("%-*s", MAX_TASK_NAME + 3, "Task Name");
