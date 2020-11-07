@@ -107,11 +107,15 @@ int create_config_file()
 
 char *get_datetime_from_timestamp(time_t ts)
 {
-    struct tm *dt = localtime(&ts);       // get localtime from timestamp
-    char *buffer = malloc(DATETIME_SIZE); // init a buffer
+    // get localtime from timestamp
+    struct tm *dt = localtime(&ts);
+    // init a buffer
+    char *buffer = malloc(DATETIME_SIZE);
     // TODO: check if allocation failed
-    strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
-    return buffer;                             // return the human-readable date string
+    // convert timestamp to datetime and write it to the buffer
+    strftime(buffer, DATETIME_SIZE, "%c", dt);
+    // return the human-readable date string
+    return buffer;
 }
 struct Task *line_to_task(char *line)
 {
@@ -126,7 +130,8 @@ struct Task *line_to_task(char *line)
 
     token = strtok(line_dup, delim);
     task->id = token;
-    int t_count = 1; // Token count in this line
+    // Token count in this line
+    int t_count = 1;
     while (token != NULL)
     {
         token = strtok(NULL, delim);

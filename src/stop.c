@@ -16,46 +16,65 @@ int stop_task(int argc, char const *argv[])
     char now_ts[64];
     strftime(now_ts, sizeof(now_ts), "%s", dt);
 
-    char *db_file = get_home_path(DB_FILE); // get the full path of the db file
-    FILE *file;                             // file pointer
-    size_t original_file_size;              // to store file size
-    file = fopen(db_file, "r");             // open the file in read mode
+    // get the full path of the db file
+    char *db_file = get_home_path(DB_FILE);
+    // file pointer
+    FILE *file;
+    // to store file size
+    size_t original_file_size;
+    // open the file in read mode
+    file = fopen(db_file, "r");
 
-    if (file == NULL) // check if we failed to open the file
+    // check if we failed to open the file
+    if (file == NULL)
     {
         printf("🚨 Dobby could not open the file.");
         return 1;
     }
 
-    fseek(file, 0, SEEK_END);         // seek to the end of the file
-    original_file_size = ftell(file); // get the file size
-    fseek(file, 0, SEEK_SET);         // rollback to the start of the file
+    // seek to the end of the file
+    fseek(file, 0, SEEK_END);
+    // get the file size
+    original_file_size = ftell(file);
+    // rollback to the start of the file
+    fseek(file, 0, SEEK_SET);
 
-    char *new_file = (char *)calloc(1, original_file_size); // allocate memory for the new file
+    // allocate memory for the new file
+    char *new_file = (char *)calloc(1, original_file_size);
     // TODO: check if allocation failed
 
-    int line_count = 0; // store the total lines in the file
+    // store the total lines in the file
+    int line_count = 0;
     char *line = NULL;
-    line = malloc(MAX_LINE_LENGTH); // allocate memory for a single line
+    // allocate memory for a single line
+    line = malloc(MAX_LINE_LENGTH);
     // TODO: check if allocation failed
-    size_t new_file_size = 0; // store the required byte amount for the new file
-    bool stopped = false;     // check if a task with given name is stopped
+    // store the required byte amount for the new file
+    size_t new_file_size = 0;
+    // check if a task with given name is stopped
+    bool stopped = false;
 
-    while (fgets(line, MAX_LINE_LENGTH, file)) // read lines through the file
+    // read lines through the file
+    while (fgets(line, MAX_LINE_LENGTH, file))
     {
-        struct Task *task = line_to_task(line); // get the tokenized version of the line
-        if (line_count > 0)                     // we are skipping the first line. it is the header line.
+        // get the tokenized version of the line
+        struct Task *task = line_to_task(line);
+        // we are skipping the first line. it is the header line.
+        if (line_count > 0)
         {
             if (strcasecmp(task->task_name, argv[2]) == 0 && strcasecmp(task->end_date, "??\n") == 0)
             {
                 task->end_date = now_ts;
-                sprintf(line, "%s,%s,%s\n", task->id, task->task_name, task->end_date); // write the line with end date
+                // write the line with end date
+                sprintf(line, "%s,%s,%s\n", task->id, task->task_name, task->end_date);
                 if (!stopped)
-                { // if there are multiple tasks with the same name
+                // if there are multiple tasks with the same name
+                {
                     magenta();
                     printf("✅ %s ", task->task_name);
                     cyan();
-                    printf("is completed!\n"); // print completion message onec.
+                    // print completion message onec.
+                    printf("is completed!\n");
                     reset();
                     stopped = true;
                 }
