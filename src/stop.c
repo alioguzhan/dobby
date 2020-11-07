@@ -81,17 +81,23 @@ int stop_task(int argc, char const *argv[])
             }
         }
         size_t line_size = strlen(line) + 1;
-        line_count++;               // we are done with this line. let's move the next one.
-        new_file_size += line_size; // increase the memory amount required for the new file
+        // we are done with this line. let's move the next one.
+        line_count++;
+        // increase the memory amount required for the new file
+        new_file_size += line_size;
 
-        if (new_file_size >= original_file_size) // check if the new file size is bigger than the original file size
+        // check if the new file size is bigger than the original file size
+        if (new_file_size >= original_file_size)
         {
-            new_file = (char *)realloc(new_file, new_file_size); // if so re allocate some memory
+            // if so, re allocate some memory
+            new_file = (char *)realloc(new_file, new_file_size);
             // TODO: check if allocation failed
         }
 
-        strncat(new_file, line, new_file_size); // append the line to new file
-        free_task(task);                        // set it free
+        // append the line to new file
+        strcat(new_file, line);
+        // set it free
+        free_task(task);
     }
 
     if (!stopped)
