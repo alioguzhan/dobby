@@ -40,7 +40,7 @@ int stop_task(int argc, char const *argv[])
     fseek(file, 0, SEEK_SET);
 
     // allocate memory for the new file
-    char *new_file = (char *)calloc(1, original_file_size);
+    char *new_file = calloc(1, original_file_size);
     // TODO: check if allocation failed
 
     // store the total lines in the file
@@ -90,7 +90,7 @@ int stop_task(int argc, char const *argv[])
         if (new_file_size >= original_file_size)
         {
             // if so, re allocate some memory
-            new_file = (char *)realloc(new_file, new_file_size);
+            new_file = realloc(new_file, new_file_size);
             // TODO: check if allocation failed
         }
 
