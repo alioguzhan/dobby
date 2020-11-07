@@ -33,9 +33,16 @@ int list_tasks(int argc, char const *argv[])
     if (file == NULL)
     {
         fprintf(stderr, "🚨 Could not open the db file while listing tasks.\n");
-        return 1;
+        return EXIT_FAILURE;
     }
     char *line = malloc(MAX_LINE_LENGTH);
+    // check for allocation fails
+    if (line == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        return EXIT_FAILURE;
+    }
+
     int counter = 0;
     printf("#    ");
     printf("%-*s", MAX_TASK_NAME + 3, "Task Name");

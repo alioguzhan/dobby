@@ -29,7 +29,7 @@ int stop_task(int argc, char const *argv[])
     if (file == NULL)
     {
         fprintf(stderr, "🚨 Dobby could not open the db file to stop a task.\n");
-        return 1;
+        return EXIT_FAILURE;
     }
 
     // seek to the end of the file
@@ -41,14 +41,24 @@ int stop_task(int argc, char const *argv[])
 
     // allocate memory for the new file
     char *new_file = calloc(1, original_file_size);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (new_file == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        return EXIT_FAILURE;
+    }
 
     // store the total lines in the file
     int line_count = 0;
     char *line = NULL;
     // allocate memory for a single line
     line = malloc(MAX_LINE_LENGTH);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (line == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        return EXIT_FAILURE;
+    }
     // store the required byte amount for the new file
     size_t new_file_size = 0;
     // check if a task with given name is stopped
@@ -91,7 +101,12 @@ int stop_task(int argc, char const *argv[])
         {
             // if so, re allocate some memory
             new_file = realloc(new_file, new_file_size);
-            // TODO: check if allocation failed
+            // check for allocation fails
+            if (new_file == NULL)
+            {
+                fprintf(stderr, "Out of memory\n");
+                return EXIT_FAILURE;
+            }
         }
 
         // append the line to new file

@@ -45,13 +45,24 @@ char *get_home_path(const char *file_path)
 {
     char *home_dir_path = getenv(HOME_ENV);
     char *home_dir = malloc(strlen(home_dir_path) + 1);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (home_dir == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
+
     char *file;
 
     strcpy(home_dir, home_dir_path);
 
     file = malloc(strlen(home_dir) + strlen(file_path) + 1);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (file == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
     strcpy(file, home_dir);
     strcat(file, file_path);
     free(home_dir);
@@ -123,7 +134,12 @@ char *get_datetime_from_timestamp(time_t ts)
     struct tm *dt = localtime(&ts);
     // init a buffer
     char *buffer = malloc(DATETIME_SIZE);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (buffer == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
     // convert timestamp to datetime and write it to the buffer
     strftime(buffer, DATETIME_SIZE, "%c", dt);
     // return the human-readable date string
@@ -132,11 +148,21 @@ char *get_datetime_from_timestamp(time_t ts)
 struct Task *line_to_task(char *line)
 {
     struct Task *task = malloc(sizeof(struct Task));
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (task == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
     const char *delim = ",";
     char *token;
     char *line_dup = strdup(line);
-    // TODO: check if allocation failed
+    // check for allocation fails
+    if (line_dup == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
 
     task->raw_line = line_dup;
 
@@ -167,6 +193,12 @@ char *get_relative_time(time_t start_time, time_t end_time)
     int days, hours, mins, secs;
     days = hours = mins = secs = 0;
     char *result = calloc(1, 40);
+    // check for allocation fails
+    if (result == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
 
     int DAY = 60 * 60 * 24;
     int HOUR = 60 * 60;
