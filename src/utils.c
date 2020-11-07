@@ -86,6 +86,12 @@ int create_db_file()
     if (!is_file_exists(db_file))
     {
         FILE *db = fopen(db_file, "w");
+        // check if we failed to open the file
+        if (db == NULL)
+        {
+            fprintf(stderr, "🚨 Could not create the db file.\n");
+            return 1;
+        }
         fputs("id,task_name,stopped_at\n", db);
         fclose(db);
     }
@@ -99,6 +105,12 @@ int create_config_file()
     if (!is_file_exists(config_file))
     {
         FILE *config = fopen(config_file, "w");
+        // check if we failed to open the file
+        if (config == NULL)
+        {
+            fprintf(stderr, "🚨 Could not create the config file\n");
+            return 1;
+        }
         fclose(config);
     }
     free(config_file);

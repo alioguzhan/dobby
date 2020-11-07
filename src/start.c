@@ -43,8 +43,23 @@ int start_task(int argc, char const *argv[])
 
     // open the db file with append mode
     FILE *f_ptr = fopen(db_file, "a");
+    // check if we failed to open the file
+    if (f_ptr == NULL)
+    {
+        fprintf(stderr, "🚨 Could not open the db file while starting a task.\n");
+        return 1;
+    }
     // add new line for the task
-    fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER);
+    int write_to_file = fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER);
+    // fprintf returns the number of bytes that are printed.
+    // OR a negative value if there is an error
+    if (write_to_file < 0)
+    {
+        fprintf(stderr, "🚨 Error while adding a new line to db file.\n");
+        fclose(f_ptr);
+        return 1;
+    }
+
     // close the file
     fclose(f_ptr);
     cyan();

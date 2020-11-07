@@ -28,7 +28,7 @@ int stop_task(int argc, char const *argv[])
     // check if we failed to open the file
     if (file == NULL)
     {
-        fprintf(stderr, "🚨 Dobby could not open the file.");
+        fprintf(stderr, "🚨 Dobby could not open the db file to stop a task.\n");
         return 1;
     }
 
@@ -111,10 +111,16 @@ int stop_task(int argc, char const *argv[])
 
     fclose(file);                    // close the db file opened with 'read' mode.
     FILE *new = fopen(db_file, "w"); // open the same file to write
-    fputs(new_file, new);            // write the new_file to the db file
-    fclose(new);                     // close the file
-    free(line);                      // no more lines. set it free
-    free(new_file);                  // no more new_file. set it free
+    // check if we failed to open the file
+    if (new == NULL)
+    {
+        fprintf(stderr, "🚨 Could not create the new file while stopping a task.\n");
+        return 1;
+    }
+    fputs(new_file, new); // write the new_file to the db file
+    fclose(new);          // close the file
+    free(line);           // no more lines. set it free
+    free(new_file);       // no more new_file. set it free
 
     return 0;
 }

@@ -32,7 +32,7 @@ int list_tasks(int argc, char const *argv[])
     // check if we failed to open the file
     if (file == NULL)
     {
-        fprintf(stderr, "🚨 Could not open the file.");
+        fprintf(stderr, "🚨 Could not open the db file while listing tasks.\n");
         return 1;
     }
     char *line = malloc(MAX_LINE_LENGTH);
