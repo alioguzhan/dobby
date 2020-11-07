@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## command ##
-cmd="./dobby stop task_name_a"
+cmd="dobby stop task_name_a"
 $cmd
 ## get status ##
 status=$?
