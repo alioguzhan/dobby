@@ -46,6 +46,15 @@ $ dobby list --all
 
 ## Installation
 
+For MacOS, you can install Dobby via `Homebrew`:
+
+```bash
+brew tap alioguzhan/dobby
+brew install dobby
+```
+
+### Bulding From Source
+
 Download the latest release from [releases page](https://github.com/alioguzhan/dobby/releases) and run:
 
 ```bash
