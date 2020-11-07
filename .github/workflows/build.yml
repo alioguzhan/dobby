@@ -14,7 +14,7 @@ jobs:
       - name: Configure and Make
         run: bash ./autogen.sh
       - name: Install
-        run: make install
+        run: sudo make install
       - name: Run Tests
         run: bash ./tests/tests.sh
   # build_macos_10_15:
