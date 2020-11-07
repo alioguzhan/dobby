@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Configure and Make
-        run: autoreconf -vfi && ./configure && make
+        run: bash ./autogen.sh
+      - name: Install
+        run: sudo make install
       - name: Run Tests
         run: bash ./tests/tests.sh
   # build_macos_10_15:

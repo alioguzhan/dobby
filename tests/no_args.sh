@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## command ##
-cmd="./dobby"
+cmd="dobby"
 $cmd
 ## get status ##
 status=$?

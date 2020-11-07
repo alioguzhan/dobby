@@ -1,4 +1,6 @@
 // colorize.h
+#ifndef DOBBY_COLORIZE_H
+#define DOBBY_COLORIZE_H
 
 #define RED "\33[1;31m"
 #define GREEN "\33[1;32m"
@@ -28,3 +30,5 @@ void cyan(void);
 
 /** Resets the output color */
 void reset(void);
+
+#endif

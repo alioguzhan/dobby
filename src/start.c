@@ -15,29 +15,56 @@ int start_task(int argc, char const *argv[])
     char now_ts[64];
     strftime(now_ts, sizeof(now_ts), "%s", dt);
 
-    char *db_file = get_home_path(DB_FILE); // get the full path of the db file
+    // get the full path of the db file
+    char *db_file = get_home_path(DB_FILE);
 
-    if (argc != 3) // check if task_name is provided
+    // check if task_name is provided
+    if (argc != 3)
     {
         printf("💡 Usage: dobby start task_name\n");
         return 1;
     }
-    if (strlen(argv[2]) > MAX_TASK_NAME) // check if task name length is valid
+    // check if task name length is valid
+    if (strlen(argv[2]) > MAX_TASK_NAME)
     {
-        printf("✋ Task name length should be less than %d\n", MAX_TASK_NAME); // warn the user
-        return 1;                                                             // then exit
+        // warn the user
+        printf("✋ Task name length should be less than %d\n", MAX_TASK_NAME);
+        // then exit
+        return 1;
     }
-    if (strchr(argv[2], ',')) // check if task name contains , (comma)
+    // check if task name contains , (comma)
+    if (strchr(argv[2], ','))
     {
-        printf("✋ Task name cannot contain ',' (comma)\n"); // warn th user
-        return 1;                                           // then exit
+        // warn th user
+        printf("✋ Task name cannot contain ',' (comma)\n");
+        // then exit
+        return 1;
     }
 
-    FILE *f_ptr = fopen(db_file, "a");                                 // open the db file with append mode
-    fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER); // add new line for the task
-    fclose(f_ptr);                                                     // close the file
+    // open the db file with append mode
+    FILE *f_ptr = fopen(db_file, "a");
+    // check if we failed to open the file
+    if (f_ptr == NULL)
+    {
+        fprintf(stderr, "🚨 Could not open the db file while starting a task.\n");
+        return 1;
+    }
+    // add new line for the task
+    int write_to_file = fprintf(f_ptr, "%s,%s,%s", now_ts, argv[2], END_TIME_PLACEHOLDER);
+    // fprintf returns the number of bytes that are printed.
+    // OR a negative value if there is an error
+    if (write_to_file < 0)
+    {
+        fprintf(stderr, "🚨 Error while adding a new line to db file.\n");
+        fclose(f_ptr);
+        return 1;
+    }
+
+    // close the file
+    fclose(f_ptr);
     cyan();
-    printf("🚀 Dobby has started to work on "); // inform the user
+    // inform the user
+    printf("🚀 Dobby has started to work on ");
     magenta();
     printf("%s\n", argv[2]);
     reset();

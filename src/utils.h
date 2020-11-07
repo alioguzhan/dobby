@@ -1,6 +1,10 @@
 // utils.h
+#ifndef DOBBY_UTILS_H
+#define DOBBY_UTILS_H
+
 #include <stdbool.h>
 #include <time.h>
+#include "config.h"
 
 #define CONFIG_FOLDER "/.dobby/"
 #define DB_FILE "/.dobby/dobby-db.csv"
@@ -46,3 +50,5 @@ char *get_relative_time(time_t t1, time_t t2);
 
 /** free a task */
 void free_task(struct Task *task);
+
+#endif

@@ -1,2 +1,2 @@
-echo "Preparing build environment...";
-aclocal && autoreconf -vfi && automake --add-missing
+echo "Preparing build environment..."
+aclocal && autoheader && autoreconf -vfi && ./configure && automake --add-missing

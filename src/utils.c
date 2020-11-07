@@ -7,7 +7,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <assert.h>
 #include <stdarg.h>
 #include "utils.h"
 #include "colorize.h"
@@ -19,8 +18,8 @@ void strfcat(char *src, char *fmt, ...);
 /** print the program usage */
 void print_usage()
 {
-    magenta();
-    printf("   Dobby v0.1\n");
+    green();
+    printf("   Dobby %s\n", PACKAGE_VERSION);
     reset();
     yellow();
     printf("⭐️ Command line program to track and save your work / study activity.\n");
@@ -28,6 +27,7 @@ void print_usage()
     reset();
     printf("\tdobby start|stop task_name\n");
     printf("\tdobby list [--all]\n");
+    printf("\tdobby --version|-v\n");
 }
 
 /** checks if the file exists at given PATH */
@@ -45,13 +45,24 @@ char *get_home_path(const char *file_path)
 {
     char *home_dir_path = getenv(HOME_ENV);
     char *home_dir = malloc(strlen(home_dir_path) + 1);
-    assert(home_dir);
+    // check for allocation fails
+    if (home_dir == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
+
     char *file;
 
     strcpy(home_dir, home_dir_path);
 
     file = malloc(strlen(home_dir) + strlen(file_path) + 1);
-    assert(file);
+    // check for allocation fails
+    if (file == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
     strcpy(file, home_dir);
     strcat(file, file_path);
     free(home_dir);
@@ -86,6 +97,12 @@ int create_db_file()
     if (!is_file_exists(db_file))
     {
         FILE *db = fopen(db_file, "w");
+        // check if we failed to open the file
+        if (db == NULL)
+        {
+            fprintf(stderr, "🚨 Could not create the db file.\n");
+            return 1;
+        }
         fputs("id,task_name,stopped_at\n", db);
         fclose(db);
     }
@@ -99,6 +116,12 @@ int create_config_file()
     if (!is_file_exists(config_file))
     {
         FILE *config = fopen(config_file, "w");
+        // check if we failed to open the file
+        if (config == NULL)
+        {
+            fprintf(stderr, "🚨 Could not create the config file\n");
+            return 1;
+        }
         fclose(config);
     }
     free(config_file);
@@ -107,26 +130,46 @@ int create_config_file()
 
 char *get_datetime_from_timestamp(time_t ts)
 {
-    struct tm *dt = localtime(&ts);            // get localtime from timestamp
-    char *buffer = malloc(DATETIME_SIZE);      // init a buffer
-    assert(buffer);                            // check if allocation is OK
-    strftime(buffer, DATETIME_SIZE, "%c", dt); // convert timestamp to datetime and write it to the buffer
-    return buffer;                             // return the human-readable date string
+    // get localtime from timestamp
+    struct tm *dt = localtime(&ts);
+    // init a buffer
+    char *buffer = malloc(DATETIME_SIZE);
+    // check for allocation fails
+    if (buffer == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
+    // convert timestamp to datetime and write it to the buffer
+    strftime(buffer, DATETIME_SIZE, "%c", dt);
+    // return the human-readable date string
+    return buffer;
 }
 struct Task *line_to_task(char *line)
 {
     struct Task *task = malloc(sizeof(struct Task));
-    assert(task);
+    // check for allocation fails
+    if (task == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
     const char *delim = ",";
     char *token;
     char *line_dup = strdup(line);
-    assert(line_dup);
+    // check for allocation fails
+    if (line_dup == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
 
     task->raw_line = line_dup;
 
     token = strtok(line_dup, delim);
     task->id = token;
-    int t_count = 1; // Token count in this line
+    // Token count in this line
+    int t_count = 1;
     while (token != NULL)
     {
         token = strtok(NULL, delim);
@@ -150,6 +193,12 @@ char *get_relative_time(time_t start_time, time_t end_time)
     int days, hours, mins, secs;
     days = hours = mins = secs = 0;
     char *result = calloc(1, 40);
+    // check for allocation fails
+    if (result == NULL)
+    {
+        fprintf(stderr, "Out of memory\n");
+        exit(EXIT_FAILURE);
+    }
 
     int DAY = 60 * 60 * 24;
     int HOUR = 60 * 60;
