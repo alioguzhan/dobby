@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     // check if program files is created under $HOME
     if (prepare_config_files() != 0)
     {
-        printf("🚫 Error while creating config files.");
+        fprintf(stderr, "🚫 Error while creating config files.");
         return 1;
     }
     // user starting a new task

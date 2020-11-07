@@ -28,7 +28,7 @@ int stop_task(int argc, char const *argv[])
     // check if we failed to open the file
     if (file == NULL)
     {
-        printf("🚨 Dobby could not open the file.");
+        fprintf(stderr, "🚨 Dobby could not open the file.");
         return 1;
     }
 
