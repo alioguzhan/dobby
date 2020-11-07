@@ -18,8 +18,8 @@ void strfcat(char *src, char *fmt, ...);
 /** print the program usage */
 void print_usage()
 {
-    magenta();
-    printf("   Dobby v0.1\n");
+    green();
+    printf("   Dobby %s\n", PACKAGE_VERSION);
     reset();
     yellow();
     printf("⭐️ Command line program to track and save your work / study activity.\n");
@@ -27,6 +27,7 @@ void print_usage()
     reset();
     printf("\tdobby start|stop task_name\n");
     printf("\tdobby list [--all]\n");
+    printf("\tdobby --version|-v\n");
 }
 
 /** checks if the file exists at given PATH */

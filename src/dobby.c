@@ -34,6 +34,11 @@ int main(int argc, char const *argv[])
     {
         return list_tasks(argc, argv);
     }
+    else if (strcasecmp(argv[1], "--version") == 0 || strcasecmp(argv[1], "-v") == 0)
+    {
+        printf("%s\n", PACKAGE_STRING);
+        return 0;
+    }
     else
     {
         print_usage(); // Nothing matches. Print usage...
