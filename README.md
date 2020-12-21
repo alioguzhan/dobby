@@ -73,7 +73,6 @@ Now you should be able to run `dobby` from anywhere in your terminal.
 - [x] Make sure it is working properly on both `linux` and `macos` (github actions).
 - [ ] There are some duplicates among the code. Refactor the code base.
 - [ ] Run `valgrind` on each push and PR.
-- [ ] `VS Code` extension to track programming projects automatically ?? (long shot..)
 
 
 ## Contribution
