@@ -1,4 +1,4 @@
-name: Build
+name: Build and Test
 
 on:
   push:
@@ -8,20 +8,13 @@ on:
 
 jobs:
   build_ubuntu_20_04:
-    runs-on: ubuntu-20.04
+    name: Run Tests
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Configure and Make
         run: bash ./autogen.sh
       - name: Install
         run: sudo make install
       - name: Run Tests
         run: bash ./tests/tests.sh
-  # build_macos_10_15:
-  #   runs-on: macos-10.15
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Configure and Make
-  #       run: autoreconf -vfi && ./configure && make
-  #     - name: Run Tests
-  #       run: bash ./tests/tests.sh
